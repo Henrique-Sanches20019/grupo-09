@@ -17,13 +17,31 @@ services:
     networks:
       - app-network
 
+  msresident:
+    build:
+      context: ./MSResident
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/residentdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
   mysql:
-    image: mysql:8.0
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
     ports:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=employeedb
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
