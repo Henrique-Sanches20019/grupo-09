@@ -1,8 +1,10 @@
 package br.unesp.rc.MSResident.controller;
 
 import br.unesp.rc.MSResident.dto.LoginRequest;
+import br.unesp.rc.MSResident.entity.Resident;
 import br.unesp.rc.MSResident.service.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,18 @@ public class ResidentController {
     @Autowired
     public ResidentController(ResidentService residentService) {
         this.residentService = residentService;
+    }
+    
+    /**
+     * Endpoint to create a new resident.
+     * This operation should be restricted to authorized personnel (e.g., ADMIN).
+     * @param resident A JSON object representing the resident.
+     * @return The created resident with an HTTP 201 status.
+     */
+    @PostMapping
+    public ResponseEntity<Resident> createResident(@RequestBody Resident resident) {
+        Resident newResident = residentService.create(resident);
+        return new ResponseEntity<>(newResident, HttpStatus.CREATED);
     }
 
     /**

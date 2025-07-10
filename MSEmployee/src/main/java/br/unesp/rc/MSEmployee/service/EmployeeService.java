@@ -1,5 +1,6 @@
 package br.unesp.rc.MSEmployee.service;
 
+import br.unesp.rc.MSEmployee.entity.Employee;
 import br.unesp.rc.MSEmployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,15 @@ public class EmployeeService {
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
+    }
+
+    /**
+     * Saves a new employee to the database.
+     * @param employee The employee object to be created.
+     * @return The saved employee entity.
+     */
+    public Employee create(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     /**

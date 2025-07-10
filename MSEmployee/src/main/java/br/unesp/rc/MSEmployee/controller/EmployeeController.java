@@ -1,8 +1,10 @@
 package br.unesp.rc.MSEmployee.controller;
 
 import br.unesp.rc.MSEmployee.dto.LoginRequest;
+import br.unesp.rc.MSEmployee.entity.Employee;
 import br.unesp.rc.MSEmployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,18 @@ public class EmployeeController {
     @Autowired
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    /**
+     * Endpoint to create a new employee.
+     * This operation should be restricted to authorized personnel (e.g., ADMIN).
+     * @param employee A JSON object representing the employee.
+     * @return The created employee with an HTTP 201 status.
+     */
+    @PostMapping
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+        Employee newEmployee = employeeService.create(employee);
+        return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
     /**

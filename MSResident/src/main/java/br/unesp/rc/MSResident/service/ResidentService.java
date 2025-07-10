@@ -1,5 +1,6 @@
 package br.unesp.rc.MSResident.service;
 
+import br.unesp.rc.MSResident.entity.Resident;
 import br.unesp.rc.MSResident.repository.ResidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,18 @@ public class ResidentService {
     @Autowired
     public ResidentService(ResidentRepository residentRepository) {
         this.residentRepository = residentRepository;
+    }
+
+    /**
+     * Saves a new resident to the database.
+     * The CascadeType.ALL on the Person entity ensures that associated
+     * Access, Contact, and Address entities are also saved.
+     * @param resident The resident object to be created.
+     * @return The saved resident entity, including its generated ID.
+     */
+    public Resident create(Resident resident) {
+        // Here you could add validation logic, e.g., check if CPF or username already exist.
+        return residentRepository.save(resident);
     }
 
     /**
