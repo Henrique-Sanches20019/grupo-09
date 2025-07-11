@@ -1,6 +1,7 @@
 package br.unesp.rc.MSResident.service;
 
 import br.unesp.rc.MSResident.entity.Resident;
+import br.unesp.rc.MSResident.repository.AccessRepository;
 import br.unesp.rc.MSResident.repository.ResidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 public class ResidentService {
 
     private final ResidentRepository residentRepository;
+    private final AccessRepository accessRepository;
 
     @Autowired
-    public ResidentService(ResidentRepository residentRepository) {
+    public ResidentService(ResidentRepository residentRepository, AccessRepository accessRepository) {
         this.residentRepository = residentRepository;
+        this.accessRepository = accessRepository;
     }
 
     /**
@@ -34,7 +37,7 @@ public class ResidentService {
      * @return true if credentials are valid, false otherwise.
      */
     public boolean authenticate(String username, String password) {
-        return residentRepository.findByUser(username)
+        return accessRepository.findByUser(username)
                 .map(access -> access.getPassword().equals(password))
                 .orElse(false);
     }

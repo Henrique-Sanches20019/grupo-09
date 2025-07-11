@@ -1,6 +1,7 @@
 package br.unesp.rc.MSEmployee.service;
 
 import br.unesp.rc.MSEmployee.entity.Employee;
+import br.unesp.rc.MSEmployee.repository.AccessRepository;
 import br.unesp.rc.MSEmployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final AccessRepository accessRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, AccessRepository accessRepository) {
         this.employeeRepository = employeeRepository;
+        this.accessRepository = accessRepository;
     }
 
     /**
@@ -31,7 +34,7 @@ public class EmployeeService {
      * @return true if credentials are valid, false otherwise.
      */
     public boolean authenticate(String username, String password) {
-        return employeeRepository.findByUser(username)
+        return accessRepository.findByUser(username)
                 .map(access -> access.getPassword().equals(password))
                 .orElse(false);
     }

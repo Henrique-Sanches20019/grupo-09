@@ -1,5 +1,6 @@
 package br.unesp.rc.MSResident.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,7 +26,7 @@ public class Resident extends Person {
     @Enumerated(EnumType.STRING)
     private ResidentType residentType;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "unit_id")
     private Unit unit;
 }
